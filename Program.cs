@@ -47,7 +47,7 @@ namespace Mercury
 
         static void Main(string[] args)
         {
-            string myquery1 = "INSERT INTO USER VALUES (NULL , 'muhannad' ,'imad' , '123123' ,'moh@gmail.com','qalqilia' ,'0599123123') ";
+            //  string myquery1 = "INSERT INTO USER VALUES (NULL , 'muhannad' ,'imad' , '123123' ,'moh@gmail.com','qalqilia' ,'0599123123') ";
             string myquery2 = "SELECT * FROM USER";
             runQuery(myquery2);
 
