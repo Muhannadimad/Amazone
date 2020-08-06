@@ -13,6 +13,8 @@ CREATE TABLE user (
   p_quantity INT NOT NULL,
   p_description MEDIUMTEXT NOT NULL,
   p_image VARCHAR(50),
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (p_id)
 ) CREATE TABLE order (
   o_id INT NOT NULL AUTO_INCREMENT UNIQUE,
