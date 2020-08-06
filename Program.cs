@@ -6,7 +6,7 @@ namespace Mercury
     class Program
     {
 
-    
+
         static void Main(string[] args)
         {
             ProductRepo repo = new ProductRepo();

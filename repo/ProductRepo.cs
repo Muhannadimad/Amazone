@@ -72,7 +72,7 @@ namespace Mercury
             }
             data.Clear();
         }
-         // Update method :
+        // Update method :
         public void Update()
         {
             string query;
@@ -158,7 +158,7 @@ namespace Mercury
             }
             data.Clear();
         }
-          // method to run any query : 
+        // method to run any query : 
         public static void runQuery(string query)
         {
 
