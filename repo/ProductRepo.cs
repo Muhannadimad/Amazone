@@ -1,6 +1,7 @@
 using System;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Collections;
 namespace Mercury
 {
     class ProductRepo
@@ -39,8 +40,9 @@ namespace Mercury
 
         }
         // Read method :
-        public void Read_Id(product p)
+        public product Read_Id(product p)
         {
+            product newp = new product();
             string query = "SELECT * FROM product WHERE p_id = @p_id";
             MySqlCommand com = c.CreateCommand();
             com.CommandText = query;
@@ -55,8 +57,13 @@ namespace Mercury
                 while (myreader.Read())
                 {
 
-                    Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
-                    + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
+                    newp.p_id = myreader.GetString(0);
+                    newp.p_price = myreader.GetString(1);
+                    newp.p_quantity = myreader.GetString(2);
+                    newp.p_description = myreader.GetString(3);
+                    newp.p_image = myreader.GetString(4);
+                    newp.created_at = myreader.GetString(5);
+                    newp.updated_at = myreader.GetString(6);
 
                 }
             }
@@ -65,7 +72,7 @@ namespace Mercury
                 Console.WriteLine("Nothing to return check id !");
             }
             myreader.Close();
-
+            return newp;
 
         }
         // read all data 
@@ -75,13 +82,13 @@ namespace Mercury
             MySqlCommand com = new MySqlCommand(query, c);
 
             MySqlDataReader myreader = com.ExecuteReader();
-            int count = 0;
+
+
             if (myreader.HasRows)
             {
                 while (myreader.Read())
                 {
 
-                    Console.WriteLine(++count);
                     Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
                     + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
 
