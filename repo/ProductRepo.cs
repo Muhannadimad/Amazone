@@ -24,142 +24,118 @@ namespace Mercury
             }
         }
         // Create method :
-        public void Create()
+        public void Create(product p)
         {
-            string query = $"INSERT INTO product (p_price, p_quantity, p_description) VALUES ('{data["p_price"]}', '{data["p_quantity"]}','{data["p_description"]}')";
+            string query = $"INSERT INTO product (p_price, p_quantity, p_description) VALUES (@p_price, @p_quantity,@p_description)";
+            MySqlCommand com = c.CreateCommand();
+            com.CommandText = query;
+            com.Parameters.Add("@p_price", MySqlDbType.VarString);
+            com.Parameters.Add("@p_quantity", MySqlDbType.VarString);
+            com.Parameters.Add("@p_description", MySqlDbType.VarString);
+            com.Parameters["@p_price"].Value = p.p_price;
+            com.Parameters["@p_quantity"].Value = p.p_quantity;
+            com.Parameters["@p_description"].Value = p.p_description;
+            com.ExecuteNonQuery();
 
-            try
-            {
-                MySqlCommand com = new MySqlCommand(query, c);
-
-                MySqlDataReader myreader = com.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Erorr :" + e.Message);
-            }
-
-            data.Clear();
         }
         // Read method :
-        public void Read()
+        public void Read_Id(product p)
         {
-            string query = $"SELECT * FROM product WHERE p_id = {data["p_id"]}";
-            Console.WriteLine(query);
-            try
-            {
-                MySqlCommand com = new MySqlCommand(query, c);
-                MySqlDataReader myreader = com.ExecuteReader();
+            string query = "SELECT * FROM product WHERE p_id = @p_id";
+            MySqlCommand com = c.CreateCommand();
+            com.CommandText = query;
+            com.Parameters.Add("@p_id", MySqlDbType.VarString);
+            com.Parameters["@p_id"].Value = p.p_id;
 
-                if (myreader.HasRows)
-                {
-                    while (myreader.Read())
-                    {
-                        Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
-                        + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Nothing to return check id !");
-                }
-                myreader.Close();
+            MySqlDataReader myreader = com.ExecuteReader();
 
-            }
-            catch (Exception e)
+            if (myreader.HasRows)
             {
-                Console.WriteLine("query error :" + e.Message);
+
+                while (myreader.Read())
+                {
+
+                    Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
+                    + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
+
+                }
             }
-            data.Clear();
+            else
+            {
+                Console.WriteLine("Nothing to return check id !");
+            }
+            myreader.Close();
+
+
+        }
+        // read all data 
+        public void Read_All()
+        {
+            string query = "SELECT * FROM product";
+            MySqlCommand com = new MySqlCommand(query, c);
+
+            MySqlDataReader myreader = com.ExecuteReader();
+            int count = 0;
+            if (myreader.HasRows)
+            {
+                while (myreader.Read())
+                {
+
+                    Console.WriteLine(++count);
+                    Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
+                    + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nothing to return check id !");
+            }
+            myreader.Close();
         }
         // Update method :
-        public void Update()
+        public void Update(product p)
         {
-            string query;
+            MySqlCommand com = c.CreateCommand();
+            string query = "UPDATE product SET ";
 
-            if (!data.ContainsKey("p_id"))
+            if (!p.p_price.Equals(string.Empty))
             {
-                Console.WriteLine("Determine product id (p_id) to update");
+                query += $"  p_price = @p_price , ";
+                com.Parameters.Add("@p_price", MySqlDbType.VarString);
+                com.Parameters["@p_price"].Value = p.p_price;
             }
-            else
+            if (!p.p_quantity.Equals(String.Empty))
             {
-                if (data.ContainsKey("p_price"))
-                {
-                    query = $"UPDATE product SET p_price={data["p_price"]} WHERE p_id={data["p_id"]}";
-                    try
-                    {
-                        MySqlCommand com = new MySqlCommand(query, c);
-
-                        MySqlDataReader myreader = com.ExecuteReader();
-                        myreader.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Erorr :" + e.Message);
-                    }
-
-                }
-                if (data.ContainsKey("p_quantity"))
-                {
-                    query = $"UPDATE product SET p_quantity={data["p_quantity"]} WHERE p_id={data["p_id"]}";
-                    try
-                    {
-                        MySqlCommand com = new MySqlCommand(query, c);
-
-                        MySqlDataReader myreader = com.ExecuteReader();
-                        myreader.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Erorr :" + e.Message);
-                    }
-                }
-                if (data.ContainsKey("p_description"))
-                {
-                    query = $"UPDATE product SET p_description ='{data["p_description"]}' WHERE p_id={data["p_id"]}";
-
-                    try
-                    {
-                        MySqlCommand com = new MySqlCommand(query, c);
-
-                        MySqlDataReader myreader = com.ExecuteReader();
-                        myreader.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Erorr :" + e.Message);
-                    }
-                }
+                query += $" p_quantity= @p_quantity ,";
+                com.Parameters.Add("@p_quantity", MySqlDbType.VarString);
+                com.Parameters["@p_quantity"].Value = p.p_quantity;
             }
-            data.Clear();
+            if (!p.p_description.Equals(string.Empty))
+            {
+                query += " p_description =@p_description ";
+                com.Parameters.Add("@p_description", MySqlDbType.VarString);
+                com.Parameters["@p_description"].Value = p.p_description;
+            }
+            query += " WHERE p_id = @p_id";
+            com.Parameters.Add("@p_id", MySqlDbType.VarString);
+            com.Parameters["@p_id"].Value = p.p_id;
+
+            com.CommandText = query;
+            com.ExecuteNonQuery();
+
         }
         // Delete method :
-        public void Delete()
+        public void Delete(product p)
         {
-            if (data.ContainsKey("p_id"))
-            {
-                string query = $"DELETE FROM product WHERE p_id = {data["p_id"]}";
-
-                try
-                {
-                    MySqlCommand com = new MySqlCommand(query, c);
-
-                    MySqlDataReader myreader = com.ExecuteReader();
-                    myreader.Close();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Erorr :" + e.Message);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Determine id to delete");
-            }
-            data.Clear();
+            string query = $"DELETE FROM product WHERE p_id = @p_id";
+            MySqlCommand com = new MySqlCommand(query, c);
+            com.Parameters.Add("@p_id", MySqlDbType.VarString);
+            com.Parameters["@p_id"].Value = p.p_id;
+            com.ExecuteNonQuery();
         }
         // method to run any query : 
-        public static void runQuery(string query)
+        public void runQuery(string query)
         {
 
             if (query == "")
@@ -181,7 +157,7 @@ namespace Mercury
                         while (myreader.Read())
                         {
                             Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
-                            + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5));
+                            + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
                         }
                     }
                     else

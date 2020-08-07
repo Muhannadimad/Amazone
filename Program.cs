@@ -9,15 +9,24 @@ namespace Mercury
 
         static void Main(string[] args)
         {
-            ProductRepo repo = new ProductRepo();
+            try
+            {
 
-            repo.data["p_id"] = "2";
-            repo.data["p_price"] = "3000";
-            repo.data["p_quantity"] = "7";
-            repo.data["p_description"] = "iphone 11";
 
-            repo.Read();
+                product p = new product();
+                p.p_id = "11";
+                p.p_price = "22000000";
+                p.p_quantity = "90";
+                p.p_description = "bmw x5";
+                ProductRepo repo = new ProductRepo();
+                repo.Delete(p);
 
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erorr " + e.Message);
+            }
 
         }
     }
