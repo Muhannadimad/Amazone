@@ -101,19 +101,19 @@ namespace Mercury
 
             if (!p.p_price.Equals(string.Empty))
             {
-                query += $"  p_price = @p_price , ";
+                query += $"  p_price = @p_price  ";
                 com.Parameters.Add("@p_price", MySqlDbType.VarString);
                 com.Parameters["@p_price"].Value = p.p_price;
             }
             if (!p.p_quantity.Equals(String.Empty))
             {
-                query += $" p_quantity= @p_quantity ,";
+                query += $" , p_quantity= @p_quantity ";
                 com.Parameters.Add("@p_quantity", MySqlDbType.VarString);
                 com.Parameters["@p_quantity"].Value = p.p_quantity;
             }
             if (!p.p_description.Equals(string.Empty))
             {
-                query += " p_description =@p_description ";
+                query += " , p_description =@p_description ";
                 com.Parameters.Add("@p_description", MySqlDbType.VarString);
                 com.Parameters["@p_description"].Value = p.p_description;
             }
