@@ -7,22 +7,13 @@ namespace Mercury
     class ProductRepo
     {
         public MySqlConnection c;
-        public Dictionary<string, string> data;
+
         // Consructer : 
         public ProductRepo()
         {
-            data = new Dictionary<string, string>();
-            try
-            {
-                string con = "datasource = 127.0.0.1;port = 3306 ; username=root;password=;database=mercury";
-                c = new MySqlConnection(con);
-                c.Open();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error in connction :" + e.Message);
-            }
+            string con = "datasource = 127.0.0.1;port = 3306 ; username=root;password=;database=mercury";
+            c = new MySqlConnection(con);
+            c.Open();
         }
         // Create method :
         public void Create(product p)
@@ -50,56 +41,51 @@ namespace Mercury
             com.Parameters["@p_id"].Value = p.p_id;
 
             MySqlDataReader myreader = com.ExecuteReader();
-
-            if (myreader.HasRows)
+            while (myreader.Read())
             {
+                newp.p_id = myreader.GetString(0);
+                newp.p_price = myreader.GetString(1);
+                newp.p_quantity = myreader.GetString(2);
+                newp.p_description = myreader.GetString(3);
+                newp.p_image = myreader.GetString(4);
+                newp.created_at = myreader.GetString(5);
+                newp.updated_at = myreader.GetString(6);
 
-                while (myreader.Read())
-                {
-
-                    newp.p_id = myreader.GetString(0);
-                    newp.p_price = myreader.GetString(1);
-                    newp.p_quantity = myreader.GetString(2);
-                    newp.p_description = myreader.GetString(3);
-                    newp.p_image = myreader.GetString(4);
-                    newp.created_at = myreader.GetString(5);
-                    newp.updated_at = myreader.GetString(6);
-
-                }
             }
-            else
-            {
-                Console.WriteLine("Nothing to return check id !");
-            }
+
             myreader.Close();
             return newp;
 
         }
         // read all data 
-        public void Read_All()
+        public product[] Read_All()
         {
             string query = "SELECT * FROM product";
             MySqlCommand com = new MySqlCommand(query, c);
-
+            product[] arr = new product[count()];
+            for (int j = 0; j < arr.Length; j++)
+            {
+                arr[j] = new product();
+            }
+            int i = 0;
             MySqlDataReader myreader = com.ExecuteReader();
 
-
-            if (myreader.HasRows)
+            while (myreader.Read())
             {
-                while (myreader.Read())
-                {
 
-                    Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
-                    + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
-
-                }
-            }
-            else
-            {
-                Console.WriteLine("Nothing to return check id !");
+                arr[i].p_id = myreader.GetString(0);
+                arr[i].p_price = myreader.GetString(1);
+                arr[i].p_quantity = myreader.GetString(2);
+                arr[i].p_description = myreader.GetString(3);
+                arr[i].p_image = myreader.GetString(4);
+                arr[i].created_at = myreader.GetString(5);
+                arr[i].updated_at = myreader.GetString(6);
+                i++;
             }
             myreader.Close();
+            return arr;
         }
+
         // Update method :
         public void Update(product p)
         {
@@ -141,46 +127,27 @@ namespace Mercury
             com.Parameters["@p_id"].Value = p.p_id;
             com.ExecuteNonQuery();
         }
-        // method to run any query : 
-        public void runQuery(string query)
+        // method to count raws in table : 
+        public int count()
         {
+            string query = "SELECT COUNT(*) FROM product";
+            MySqlCommand com = new MySqlCommand(query, c);
+            Int32 count = Convert.ToInt32(com.ExecuteScalar());
 
-            if (query == "")
-            {
-                Console.WriteLine("please enter a query");
-                return;
-            }
-            else
-            {
-                string con = "datasource = 127.0.0.1;port = 3306 ; username=root;password=;database=mercury";
-                MySqlConnection c = new MySqlConnection(con);
-                MySqlCommand com = new MySqlCommand(query, c);
-                try
-                {
-                    c.Open();
-                    MySqlDataReader myreader = com.ExecuteReader();
-                    if (myreader.HasRows)
-                    {
-                        while (myreader.Read())
-                        {
-                            Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
-                            + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5) + " - " + myreader.GetString(6));
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("query successfully excuated");
-                    }
+            return count;
 
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("query error :" + e.Message);
-                }
-            }
         }
+        //print product table
+        public void print()
+        {
+            product[] arr;
+            arr = Read_All();
+            for (int i = 0; i < arr.Length; i++)
+                Console.WriteLine(arr[i].p_id + " -- " + arr[i].p_price + " -- " + arr[i].p_quantity + " -- " + arr[i].p_description + " -- " + arr[i].created_at + " -- " + arr[i].updated_at);
 
-
+        }
     }
+
+
 }
+
