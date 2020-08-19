@@ -1,6 +1,6 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Linq;
 namespace Mercury
 {
     class Program
@@ -13,13 +13,15 @@ namespace Mercury
             // {
 
 
-                product p = new product();
-                p.p_id = "7";
+                // product p = new product();
+                // p.p_id = "7";
                 //p.p_price = "66200";
                 // p.p_quantity = "80";
                 // p.p_description = "bmw x5 109";
-                ProductRepo repo = new ProductRepo();
-                repo.print();
+                // ProductRepo repo = new ProductRepo();
+                // ProductRepo repo1 = new ProductRepo();
+                // repo.print();
+                // repo1.print();
                 // product [] arr ;
                 // arr = repo.Read_All();
                 // for(int i=0; i<arr.Length;i++)
@@ -31,7 +33,9 @@ namespace Mercury
             // {
             //     Console.WriteLine("Erorr " + e.Message);
             // }
-
+            
+            Mercurycontext m =new Mercurycontext();
+          //  var mp = m.products.Single(b => b.p_id.Equals(1));
         }
     }
 }
