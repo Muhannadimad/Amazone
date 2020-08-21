@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mercury.Models;
 namespace Mercury
 {
     class Program
@@ -34,8 +35,13 @@ namespace Mercury
             //     Console.WriteLine("Erorr " + e.Message);
             // }
             
-            Mercurycontext m =new Mercurycontext();
-          //  var mp = m.products.Single(b => b.p_id.Equals(1));
+           MercuryContext m =new MercuryContext();
+           var mp = m.Product.Single(b => b.PId.Equals(2));
+          
+          
+                Console.WriteLine(mp.PDescription);
+        
+          
         }
     }
 }

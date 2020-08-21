@@ -1,16 +1,16 @@
-using System.Data;
-//using System.Data.Entity;
-namespace Mercury.models{
+﻿using System;
+using System.Collections.Generic;
 
-    public class product{
-     public int p_id{get; set;}
-     
-        public string p_price {get; set;}
-        public string p_quantity {get; set;}
-        public string p_description {get; set;}
-        public string p_image  {get; set;}
-        public string created_at {get; set;}
-        public string updated_at {get; set;}
-
+namespace Mercury.Models
+{
+    public partial class Product
+    {
+        public int PId { get; set; }
+        public int PPrice { get; set; }
+        public int PQuantity { get; set; }
+        public string PDescription { get; set; }
+        public string PImage { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
     }
 }
