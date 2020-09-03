@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mercury.Models;
+//using Mercury.Models;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 namespace Mercury
 {
     class Program
@@ -35,13 +39,25 @@ namespace Mercury
             //     Console.WriteLine("Erorr " + e.Message);
             // }
             
-           MercuryContext m =new MercuryContext();
-           var mp = m.Product.Single(b => b.PId.Equals(2));
+        //    MercuryContext m =new MercuryContext();
+        //    var mp = m.Product.Single(b => b.PId.Equals(2));
           
           
-                Console.WriteLine(mp.PDescription);
-        
-          
+        //         Console.WriteLine(mp.PDescription);
+    //     var c = new MercuryContext();
+    //     var p = new Product(){
+    //         PPrice = 55555 ,
+    //         PDescription = "laptop",
+    //         PImage = ""
+    //         };
+    //     // c.Add<Product>(p);
+    //     // c.SaveChanges();
+    //   var x =   c.Product.Where(s => s.PId ==2).ToList();
+    // foreach (var z in x)
+    // {
+    //     Console.WriteLine(z.PDescription);
+    // }
         }
+    
     }
 }

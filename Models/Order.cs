@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mercury.Models
 {
-    public partial class Order
+    public class Order
     {
-        public int OId { get; set; }
+        [Key]
         public int Id { get; set; }
-        public int PId { get; set; }
+    
+        public int ProductId { get; set; }
+      
+        public int UserId { get; set; }
         public int Quantity { get; set; }
+
     }
 }

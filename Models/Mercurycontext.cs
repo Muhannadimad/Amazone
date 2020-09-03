@@ -1,131 +1,81 @@
-﻿using System;
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-
-namespace Mercury.Models
+using System.ComponentModel.DataAnnotations.Schema;
+using Mercury.Models;
+namespace Mercury
 {
-    public partial class MercuryContext : DbContext
-    {
-        public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<User> User { get; set; }
 
+    public class MercuryContext : DbContext
+    {
+        public DbSet<product> products { get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<Order> orders { get; set; }
+        // public MercuryContext(): base(){
+        //     Database.SetInitializer(new SchoolDBInitializer());
+        // }
+        //public DbSet<Student> Students { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 
-                optionsBuilder.UseMySql("server=localhost; database=Mercury; user=root; pwd=;");
+                optionsBuilder.UseMySql("server=localhost; database=Mercury; user=root; pwd=123123;");
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Order>(entity =>
-            {
-                entity.HasKey(e => e.OId);
-
-                entity.ToTable("order");
-
-                entity.HasIndex(e => e.OId)
-                    .HasName("o_id")
-                    .IsUnique();
-
-                entity.Property(e => e.OId)
-                    .HasColumnName("o_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.PId)
-                    .HasColumnName("p_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Quantity)
-                    .HasColumnName("quantity")
-                    .HasColumnType("int(11)");
-            });
-
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.HasKey(e => e.PId);
-
-                entity.ToTable("product");
-
-                entity.Property(e => e.PId)
-                    .HasColumnName("p_id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnName("created_at")
-                    .HasColumnType("timestamp")
-                    .HasDefaultValueSql("'current_timestamp()'");
-
-                entity.Property(e => e.PDescription)
-                    .IsRequired()
-                    .HasColumnName("p_description")
-                    .HasColumnType("mediumtext");
-
-                entity.Property(e => e.PImage)
-                    .IsRequired()
-                    .HasColumnName("p_image")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.PPrice)
-                    .HasColumnName("p_price")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.PQuantity)
-                    .HasColumnName("p_quantity")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnName("updated_at")
-                    .HasColumnType("timestamp")
-                    .HasDefaultValueSql("'current_timestamp()'")
-                    .ValueGeneratedOnAddOrUpdate();
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("user");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasColumnName("address")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasColumnName("email")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasColumnName("first name")
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasColumnName("last name")
-                    .HasMaxLength(30);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasColumnName("password")
-                    .HasMaxLength(20);
-
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasColumnName("phone")
-                    .HasMaxLength(20);
-            });
-        }
     }
 }
+//     protected override void OnModelCreating(ModelBuilder modelBuilder)
+//     {
+//     //     modelBuilder.Entity<Student>()
+//     //    .HasKey(s => s.StudentId);
+//     //     modelBuilder.Entity<Grade>()
+//     //     .HasKey(s => s.Id);
+
+//     //     modelBuilder.Entity<Student>().HasKey(s => new { s.StudentId, s.FirstName });      
+
+//     //     //   modelBuilder.Entity<Student>()
+//     //     //         .Property(p => p.DateOfBirth)
+//     //     //         .HasColumnName("DoB")
+//     //     //         .HasColumnOrder(3)
+//     //     //         .HasColumnType("datetime2");
+//     }
+// }
+
+// public class Student
+// {
+//     [Key]
+//     public int StudentId { get; set; }
+
+//     public string FirstName { get; set; }
+
+//     public string LastName { get; set; }
+
+//     public DateTime DateOfBirth { get; set; }
+
+//     public byte[] Photo { get; set; }
+
+//     public decimal Height { get; set; }
+
+//     public float Weight { get; set; }
+
+//     public int GradeID {get; set;}
+
+
+// }
+
+// public class Grade
+// {
+//     [Column(Order = 0)]
+//     public int Id { get; set; }
+//      [Column(Order = 2)]
+//     public string GradeName { get; set; }
+//      [Column(Order = 1)]
+//     public string Section { get; set; }
+// }
+
