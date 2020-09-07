@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,9 +11,9 @@ namespace Mercury
 
     public class MercuryContext : DbContext
     {
-        public DbSet<product> products { get; set; }
-        public DbSet<User> users { get; set; }
-        public DbSet<Order> orders { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Order> Order { get; set; }
         // public MercuryContext(): base(){
         //     Database.SetInitializer(new SchoolDBInitializer());
         // }
@@ -24,7 +23,7 @@ namespace Mercury
             if (!optionsBuilder.IsConfigured)
             {
 
-                optionsBuilder.UseMySql("server=localhost; database=Mercury; user=root; pwd=123123;");
+                optionsBuilder.UseMySql("server=localhost; database=MercuryMercury; user=root; pwd=123123;");
             }
         }
 
