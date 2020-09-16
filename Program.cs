@@ -1,57 +1,78 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
+using Mercury.Models;
+using Mercury.repo;
+using Microsoft.Extensions.Configuration;
 
 namespace Mercury
 {
+    // class LoggingConfig
+    // {
+    //     public string LogPath {get;set;}
+    //     public LogLevel Level {get;set;}
+    // }
     class Program
     {
-
-        public static void runQuery(string query)
-        {
-
-            if (query == "")
-            {
-                Console.WriteLine("please enter a query");
-                return;
-            }
-            else
-            {
-                string con = "datasource = 127.0.0.1;port = 3306 ; username=root;password=;database=mercury";
-                MySqlConnection c = new MySqlConnection(con);
-                MySqlCommand com = new MySqlCommand(query, c);
-                try
-                {
-                    c.Open();
-                    MySqlDataReader myreader = com.ExecuteReader();
-                    if (myreader.HasRows)
-                    {
-                        while (myreader.Read())
-                        {
-                            Console.WriteLine(myreader.GetString(0) + " - " + myreader.GetString(1) + " - " + myreader.GetString(2)
-                            + " - " + myreader.GetString(3) + " - " + myreader.GetString(4) + " - " + myreader.GetString(5));
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("query successfully excuated");
-                    }
-
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("query error :" + e.Message);
-                }
-            }
-        }
-
         static void Main(string[] args)
         {
-            //  string myquery1 = "INSERT INTO USER VALUES (NULL , 'muhannad' ,'imad' , '123123' ,'moh@gmail.com','qalqilia' ,'0599123123') ";
-            string myquery2 = "SELECT * FROM USER";
-            runQuery(myquery2);
+            // ProductRepo pr = new ProductRepo();
+            // Product p = new Product()
+            // {
+            //     Description = "hats",
+            //     Quantity = 200,
+            //     Price = 50
+            // };
+            // pr.Create(p);
+
+            // var t = pr.Read();
+            //  foreach (var item in t)
+            //  {
+            //      Console.WriteLine(item.Description);
+            //  }
 
 
+            // OrderRepo ordrepo = new OrderRepo();
+            // Order o = new Order()
+            // {
+            //    
+            //     ProductId = 2,
+            //     UserId = 1,
+            //     Quantity = 33
+            // };
+            // ordrepo.Create(o);
+
+
+            // UserRepo userrepo = new UserRepo();
+            // var u = new User()
+            // {
+            //     Id = 4
+            //     // firstname = "ali",
+            //     // lastname = "mohammad",
+            //     // address = "nablus",
+            //     // email = "ali@muhannad.com",
+            //     // phone = "0599958574",
+            //     // password = "1223"
+            // };
+            // userrepo.Count();
+            //    try
+            //    {
+            //        userrepo.Create(u);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        String innerMessage = (ex.InnerException != null) 
+            //            ? ex.InnerException.Message
+            //            : "";
+            //        Console.WriteLine(innerMessage);
+            //    }
+            // }
+
+            // configuration
+            // IConfiguration configuration = new ConfigurationBuilder()
+            //     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //     .AddEnvironmentVariables()
+            //     .AddCommandLine(args)
+            //     .Build();
+          
         }
     }
 }
